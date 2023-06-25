@@ -5,7 +5,10 @@
 
         @vite('resources/css/app.css')
     </head>
-    <body >
+    <body>
+        @foreach($workers as $worker)
+            {{ $worker->name }} <br>
+        @endforeach
 
     </body>
 </html>
