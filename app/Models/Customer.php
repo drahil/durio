@@ -11,12 +11,12 @@ class Customer extends Model
 
     public function reservations()
     {
-        $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class);
     }
 
     public function workers()
     {
-        $this->belongsToMany(Reservation::class);
+        return $this->belongsToMany(Reservation::class);
     }
 
 

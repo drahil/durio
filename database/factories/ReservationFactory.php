@@ -20,7 +20,7 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => $this->faker->dateTimeInInterval(now(), '+365 days'),
+            'date' => $this->faker->dateTimeInInterval('-365 days', '+730 days'),
             'worker_id' => Worker::all()->random()->id,
             'customer_id' => Customer::all()->random()->id,
             'service_id' => Service::all()->random()->id,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
+use App\Models\Worker;
 
 class ReservationController extends Controller
 {
@@ -13,7 +14,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -35,9 +36,14 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Reservation $reservation)
+    public function show(Reservation $reservation, Worker $worker)
     {
-        //
+        $reservations = Reservation::where('worker_id', '=', $worker->id)
+            ->select('date')
+            ->get()
+            ->sortBy('date');
+
+        return view('reservations', compact('reservations'));
     }
 
     /**

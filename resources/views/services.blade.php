@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <title>Durio</title>
+        <title>Services</title>
 
         @vite('resources/css/app.css')
     </head>
     <body>
-        <ul>
-            <li><a href="/workers">Workers</a></li>
-            <li><a href="/services">Services</a></li>
-        </ul>
+        @foreach($services as $service)
+            {{ $service->name . ': ' . $service->price . ' euros'}} <br>
+        @endforeach
     </body>
 </html>

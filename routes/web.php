@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\WorkerController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/', fn() => view('welcome'));
 
-Route::get('/', [WorkerController::class, 'index']);
+Route::get('/workers', [WorkerController::class, 'index']);
+Route::get('/services', [ServiceController::class, 'index']);
+
+Route::get('/workers/{worker}/reservations', [ReservationController::class, 'show'])->name('workers.reservations');
+
+
+

@@ -11,11 +11,16 @@ class Worker extends Model
 
     public function reservations()
     {
-        $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class);
     }
 
     public function customers()
     {
-        $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Reservation::class);
     }
 }
