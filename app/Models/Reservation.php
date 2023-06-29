@@ -8,15 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Reservation extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
-    public function worker()
+    public function user()
     {
-        return $this->belongsTo(Worker::class);
+        return $this->belongsTo(User::class);
     }
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class);
-    }
+
     public function service()
     {
         return $this->hasMany(Service::class);

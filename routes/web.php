@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => view('welcome'));
 
-Route::get('/workers', [WorkerController::class, 'index']);
+Route::get('/users', [UserController::class, 'index']);
 Route::get('/services', [ServiceController::class, 'index']);
 
-Route::get('/workers/{worker}/reservations', [ReservationController::class, 'show'])->name('workers.reservations');
+Route::get('/users/{user}/reservations', [ReservationController::class, 'show'])->name('users.reservations');
 
+Route::get('/reservations/create', [ReservationController::class, 'create']);
+Route::post('/reservations', [ReservationController::class, 'store']);
 
-
+Route::get('/login', [SessionsController::class, 'create']);
+Route::post('/login', [SessionsController::class, 'store']);

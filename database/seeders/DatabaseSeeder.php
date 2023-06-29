@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use App\Models\Customer;
 use App\Models\Reservation;
 use App\Models\Service;
-use App\Models\Worker;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,8 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         Worker::factory(5)->create();
-         Customer::factory(20)->create();
+         User::factory(5)->create();
          Service::factory(3)->create();
          Reservation::factory(300)->create();
     }

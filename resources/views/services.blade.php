@@ -6,8 +6,8 @@
         @vite('resources/css/app.css')
     </head>
     <body>
-        @foreach($services as $service)
-            {{ $service->name . ': ' . $service->price . ' euros'}} <br>
-        @endforeach
+        <x-table>
+            <x-dynamic-table :data="$services" :headers="['id', 'Service', 'Price']"/>
+        </x-table>
     </body>
 </html>

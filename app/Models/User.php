@@ -12,21 +12,33 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -34,12 +46,17 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
 }

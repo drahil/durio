@@ -8,11 +8,11 @@
     <body>
         <x-table>
             @php
-                foreach ($workers as $worker){
-                   $worker['reservations'] = '<a href="/workers/' . $worker->id . '/reservations">' . 'See reservations' . '</a>';
+                foreach ($users as $user){
+                   $user['reservations'] = '<a href="/users/' . $user->id . '/reservations">' . 'See reservations' . '</a>';
                }
             @endphp
-            <x-dynamic-table :data="$workers" :headers="['ID', 'Name', 'Profit', 'Email', 'Reservations']"/>
+            <x-dynamic-table :data="$users" :headers="['ID', 'Name', 'Profit', 'Email', 'Reservations']"/>
         </x-table>
 
     </body>

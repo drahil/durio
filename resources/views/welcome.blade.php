@@ -7,8 +7,9 @@
     </head>
     <body>
         <ul>
-            <li><a href="/workers">Workers</a></li>
+            <li><a href="/users">Workers</a></li>
             <li><a href="/services">Services</a></li>
+            <li><a href="/reservations/create">Make a reservation</a></li>
         </ul>
     </body>
 </html>

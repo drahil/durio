@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class CustomerFactory extends Factory
+class UserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +19,9 @@ class CustomerFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => 'password',
+            'profit' => $this->faker->numberBetween(150, 1100),
         ];
     }
 }

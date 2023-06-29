@@ -14,8 +14,8 @@ class Service extends Model
         return $this->belongsToMany(Reservation::class);
     }
 
-    public function workers()
+    public function users()
     {
-        return $this->belongsToMany(Worker::class);
+        return $this->belongsToMany(User::class);
     }
 }

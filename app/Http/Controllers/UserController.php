@@ -6,11 +6,11 @@ use App\Http\Requests\StoreWorkerRequest;
 use App\Http\Requests\UpdateWorkerRequest;
 use App\Models\Reservation;
 use App\Models\Service;
-use App\Models\Worker;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class WorkerController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +19,8 @@ class WorkerController extends Controller
     {
         $this->calculateProfit();
 
-        return view('workers', [
-            'workers' => Worker::select('id', 'name', 'profit', 'email')
+        return view('users', [
+            'users' => User::select('id', 'name', 'profit', 'email')
                 ->get(),
         ]);
     }
@@ -44,7 +44,7 @@ class WorkerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Worker $worker)
+    public function show(User $user)
     {
         //
     }
@@ -52,7 +52,7 @@ class WorkerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Worker $worker)
+    public function edit(User $user)
     {
         //
     }
@@ -60,7 +60,7 @@ class WorkerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateWorkerRequest $request, Worker $worker)
+    public function update(UpdateWorkerRequest $request, User $user)
     {
         //
     }
@@ -68,23 +68,23 @@ class WorkerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Worker $worker)
+    public function destroy(User $user)
     {
         //
     }
 
     public function calculateProfit()
     {
-        $workers = Worker::all();
+        $users = User::all();
 
-        foreach ($workers as $worker) {
+        foreach ($users as $user) {
             $totalProfit = Service::join('reservations', 'services.id', '=', 'reservations.service_id')
-                ->where('reservations.worker_id', $worker->id)
+                ->where('reservations.user_id', $user->id)
                 ->where('reservations.date', '<', Carbon::today())
                 ->sum(DB::raw('services.price'));
 
-            $worker->profit = $totalProfit;
-            $worker->save();
+            $user->profit = $totalProfit;
+            $user->save();
         }
     }
 }

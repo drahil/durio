@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
-use App\Models\Worker;
+use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class ReservationController extends Controller
 {
@@ -22,28 +23,31 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        //
+        return view('reservations.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReservationRequest $request)
+    public function store()
     {
-        //
+//        dd(request()->all());
+        Reservation::create($this->validateReservation());
+
+        return redirect('/');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Reservation $reservation, Worker $worker)
+    public function show(Reservation $reservation, User $user)
     {
-        $reservations = Reservation::where('worker_id', '=', $worker->id)
+        $reservations = Reservation::where('user_id', '=', $user->id)
             ->select('date')
             ->get()
             ->sortBy('date');
 
-        return view('reservations', compact('reservations'));
+        return view('reservations.index', compact('reservations'));
     }
 
     /**
@@ -68,5 +72,18 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+    }
+
+    private function validateReservation(?Reservation $reservation = null): array
+    {
+        $reservation ??= new Reservation();
+
+        return request()->validate([
+            'date' => ['required', Rule::unique('reservations', 'date')->ignore($reservation)],
+            'user_id' => ['required', Rule::exists('users', 'id')],
+            'name' => 'required',
+            'email' => 'required',
+            'service_id' => ['required', Rule::exists('services', 'id')],
+        ]);
     }
 }

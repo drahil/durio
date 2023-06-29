@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'workers',
     ],
 
     /*
@@ -39,6 +39,11 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'workers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+            'table' => 'workers',
         ],
     ],
 
@@ -65,10 +70,11 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'workers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+            'table' => 'workers',
+        ],
     ],
 
     /*
@@ -92,7 +98,14 @@ return [
 
     'passwords' => [
         'users' => [
-            'provider' => 'users',
+            'provider' => 'workers',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'workers' => [
+            'provider' => 'workers',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Customer;
 use App\Models\Service;
-use App\Models\Worker;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +20,10 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => $this->faker->dateTimeInInterval('-365 days', '+730 days'),
-            'worker_id' => Worker::all()->random()->id,
-            'customer_id' => Customer::all()->random()->id,
+            'name' =>$this->faker->name,
+            'email' => $this->faker->safeEmail,
+            'date' => $this->faker->unique()->dateTimeInInterval('-365 days', '+730 days'),
+            'user_id' => User::all()->random()->id,
             'service_id' => Service::all()->random()->id,
         ];
     }
