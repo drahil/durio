@@ -19,7 +19,6 @@ class SessionsController extends Controller
            'password' => 'required'
         ]);
 
-        ddd(auth()->attempt($attributes));
         if (! auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
                 'email' => 'could not verify']);
