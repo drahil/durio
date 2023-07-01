@@ -6,6 +6,7 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class ReservationController extends Controller
@@ -32,8 +33,11 @@ class ReservationController extends Controller
     public function store()
     {
 //        dd(request()->all());
-        Reservation::create($this->validateReservation());
-
+//        $reservation['user_id'] = Auth::id();
+//        dd($this->validateReservation());
+        Reservation::create(array_merge($this->validateReservation(), [
+            'user_id' => request()->user()->id,
+        ]));
         return redirect('/');
     }
 
@@ -42,7 +46,7 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation, User $user)
     {
-        $reservations = Reservation::where('user_id', '=', $user->id)
+        $reservations = Reservation::where('worker_id', '=', $user->id)
             ->select('date')
             ->get()
             ->sortBy('date');
@@ -78,12 +82,14 @@ class ReservationController extends Controller
     {
         $reservation ??= new Reservation();
 
+        $reservation->user_id = Auth::id();
+//        $reservation['user_id'] = Auth::id();
+
+
         return request()->validate([
             'date' => ['required', Rule::unique('reservations', 'date')->ignore($reservation)],
-            'user_id' => ['required', Rule::exists('users', 'id')],
-            'name' => 'required',
-            'email' => 'required',
             'service_id' => ['required', Rule::exists('services', 'id')],
+            'worker_id' => ['required', Rule::exists('users', 'id')],
         ]);
     }
 }

@@ -20,10 +20,9 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' =>$this->faker->name,
-            'email' => $this->faker->safeEmail,
-            'date' => $this->faker->unique()->dateTimeInInterval('-365 days', '+730 days'),
             'user_id' => User::all()->random()->id,
+            'date' => $this->faker->unique()->dateTimeInInterval('-365 days', '+730 days'),
+            'worker_id' => User::where('role', '=', 'worker')->get()->random()->id,
             'service_id' => Service::all()->random()->id,
         ];
     }

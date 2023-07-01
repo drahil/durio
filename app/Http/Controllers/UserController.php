@@ -21,6 +21,7 @@ class UserController extends Controller
 
         return view('users', [
             'users' => User::select('id', 'name', 'profit', 'email')
+                ->where('role', '=', 'worker')
                 ->get(),
         ]);
     }
@@ -75,11 +76,12 @@ class UserController extends Controller
 
     public function calculateProfit()
     {
-        $users = User::all();
+        $users = User::where('role', '=', 'worker')->get();
+//        ddd($users);
 
         foreach ($users as $user) {
             $totalProfit = Service::join('reservations', 'services.id', '=', 'reservations.service_id')
-                ->where('reservations.user_id', $user->id)
+                ->where('reservations.worker_id', $user->id)
                 ->where('reservations.date', '<', Carbon::today())
                 ->sum(DB::raw('services.price'));
 
