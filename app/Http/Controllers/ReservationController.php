@@ -35,7 +35,7 @@ class ReservationController extends Controller
         Reservation::create(array_merge($this->validateReservation(), [
             'user_id' => request()->user()->id,
         ]));
-        return redirect('/');
+        return redirect('/dashboard');
     }
 
     /**

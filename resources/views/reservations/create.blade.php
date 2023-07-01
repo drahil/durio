@@ -3,8 +3,6 @@
 
     <x-form.input name="date"/>
 
-
-
     <x-form.label name="Service"/>
         <select name="service_id" id="service_id">
             @foreach (\App\Models\Service::all() as $service)
