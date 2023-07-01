@@ -44,7 +44,7 @@ class ReservationController extends Controller
     public function show(Reservation $reservation, User $user)
     {
         $reservations = Reservation::where('worker_id', '=', $user->id)
-            ->select('date')
+            ->select('date', 'id')
             ->get()
             ->sortBy('date');
 
@@ -70,9 +70,18 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reservation $reservation)
+    public function destroy($id)
     {
-        //
+        $reservation = Reservation::find($id);
+        if ($reservation) {
+
+            $reservation->delete();
+
+            return response()->json(['message' => 'Reservation deleted successfully']);
+        } else {
+
+            return response()->json(['error' => 'Reservation not found'], 404);
+        }
     }
 
     private function validateReservation(?Reservation $reservation = null): array

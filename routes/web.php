@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn() => view('welcome'));
 
 Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/create', [UserController::class, 'create']);
+Route::get('/users/create', [UserController::class, 'create'])->middleware('can:admin');
 Route::post('/users', [UserController::class, 'store']);
 
 Route::get('/services', [ServiceController::class, 'index']);
@@ -29,11 +29,12 @@ Route::get('/services', [ServiceController::class, 'index']);
 Route::get('/users/{user}/reservations', [ReservationController::class, 'show'])->name('users.reservations');
 Route::get('/reservations/create', [ReservationController::class, 'create']);
 Route::post('/reservations', [ReservationController::class, 'store']);
+Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 
 Route::get('/login', [SessionsController::class, 'create']);
 Route::post('/login', [SessionsController::class, 'store']);
 Route::get('/logout', [SessionsController::class, 'destroy']);
-Route::get('/dashboard', [SessionsController::class, 'index']);
+Route::get('/dashboard', [SessionsController::class, 'index'])->middleware('auth');
 
 
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
