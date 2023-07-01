@@ -32,9 +32,6 @@ class ReservationController extends Controller
      */
     public function store()
     {
-//        dd(request()->all());
-//        $reservation['user_id'] = Auth::id();
-//        dd($this->validateReservation());
         Reservation::create(array_merge($this->validateReservation(), [
             'user_id' => request()->user()->id,
         ]));
@@ -83,8 +80,6 @@ class ReservationController extends Controller
         $reservation ??= new Reservation();
 
         $reservation->user_id = Auth::id();
-//        $reservation['user_id'] = Auth::id();
-
 
         return request()->validate([
             'date' => ['required', Rule::unique('reservations', 'date')->ignore($reservation)],

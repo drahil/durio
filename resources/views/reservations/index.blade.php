@@ -11,9 +11,14 @@
             $data[] = collect($reservation->date);
         }
     @endphp
-        <x-table>
-            <x-dynamic-table :data="$data" :headers="['Date and Time']"/>
-        </x-table>
+        @if(isset($data))
+            <x-table>
+                <x-dynamic-table :data="$data" :headers="['Date and Time']"/>
+            </x-table>
+        @else
+            {{'No reservations.'}}
+        @endif
+
 
     </body>
 </html>
