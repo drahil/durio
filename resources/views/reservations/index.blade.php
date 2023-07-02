@@ -8,19 +8,42 @@
     <body>
             @if(isset($reservations))
                 @foreach ($reservations as $reservation)
+{{--                    <tr>--}}
+{{--                        @admin--}}
+{{--                            <td>{{ $reservation->date }}</td><br>--}}
+{{--                            <td class="flex">--}}
+{{--                                <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">--}}
+{{--                                    @csrf--}}
+{{--                                    @method('DELETE')--}}
+{{--                                    <button type="submit">Delete</button>--}}
+{{--                                </form>--}}
+
+{{--                                <a href="{{ route('reservations.edit', $reservation) }}">Edit</a><br>--}}
+{{--                            </td>--}}
+
+{{--                        @else--}}
+{{--                            <td>@if($reservation->date >= now()) {{$reservation->date}} <br>@endif</td>--}}
+{{--                        @endadmin--}}
+{{--                    </tr>--}}
                     <tr>
-                        @admin
-                            <td>{{ $reservation->date }}</td><br>
-                            <td>
-                                <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">Delete</button>
-                                </form>
-                            </td>
-                        @else
+                        @if(! auth()->check())
                             <td>@if($reservation->date >= now()) {{$reservation->date}} <br>@endif</td>
-                        @endadmin
+                        @else
+                            @admin
+                                <td>{{ $reservation->date }}</td><br>
+                                <td class="flex">
+                                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">Delete</button>
+                                    </form>
+
+                                    <a href="{{ route('reservations.edit', $reservation) }}">Edit</a><br>
+                                </td>
+                            @else
+                                <td>@if($reservation->date >= now()) {{$reservation->date}} <br>@endif</td>
+                            @endadmin
+                        @endif
                     </tr>
                 @endforeach
             @else

@@ -55,45 +55,35 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Reservation $reservation)
+    public function edit($reservation)
     {
-        //
+        return view('reservations.edit', [
+            'reservation' => $reservation,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
+    public function update(Reservation $reservation)
     {
-        //
+        $attributes = $this->validateReservation($reservation);
+        $reservation->update($attributes);
+
+        Session::flash('success', 'Reservation edited successfully');
+
+        return redirect()->route('users.reservations', $reservation->worker_id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-//    public function destroy($id)
-//    {
-//        $reservation = Reservation::find($id);
-//        if ($reservation) {
-//
-//            $reservation->delete();
-//
-//            return response()->json(['message' => 'Reservation deleted successfully']);
-//        } else {
-//
-//            return response()->json(['error' => 'Reservation not found'], 404);
-//        }
-//    }
-    public function destroy($id)
+    public function destroy(Reservation $reservation)
     {
-        $reservation = Reservation::find($id);
+        $reservation->delete();
 
-        if ($reservation) {
-            $reservation->delete();
-            Session::flash('success', 'Reservation deleted successfully');
-        } else {
-            Session::flash('error', 'Reservation not found');
-        }
+        Session::flash('success', 'Reservation deleted successfully');
+
         return redirect()->back();
     }
 
@@ -101,7 +91,9 @@ class ReservationController extends Controller
     {
         $reservation ??= new Reservation();
 
-        $reservation->user_id = Auth::id();
+        if (! Auth::user()->email = 'djecevic.omar@gmail.com') {
+            $reservation->user_id = Auth::id();
+        }
 
         return request()->validate([
             'date' => ['required', Rule::unique('reservations', 'date')->ignore($reservation)],

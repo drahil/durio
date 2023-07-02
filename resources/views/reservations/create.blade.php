@@ -1,7 +1,7 @@
 <form method="POST" action="/reservations" enctype="multipart/form-data">
     @csrf
 
-    <x-form.input name="date"/>
+    <x-form.input name="date" />
 
     <x-form.label name="Service"/>
         <select name="service_id" id="service_id">
