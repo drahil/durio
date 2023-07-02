@@ -9,7 +9,7 @@
                 <option
                         value="{{ $service->id }}"
                         {{ old('service_id') == $service->id ? 'selected' : '' }}
-                >{{ ucwords($service->name) }}</option>
+                >{{ ucwords($service->type) }}</option>
             @endforeach
         </select>
     <x-form.error name="service"/>
