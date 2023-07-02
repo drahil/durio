@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
 class ReservationController extends Controller
@@ -70,18 +71,30 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+//    public function destroy($id)
+//    {
+//        $reservation = Reservation::find($id);
+//        if ($reservation) {
+//
+//            $reservation->delete();
+//
+//            return response()->json(['message' => 'Reservation deleted successfully']);
+//        } else {
+//
+//            return response()->json(['error' => 'Reservation not found'], 404);
+//        }
+//    }
     public function destroy($id)
     {
         $reservation = Reservation::find($id);
+
         if ($reservation) {
-
             $reservation->delete();
-
-            return response()->json(['message' => 'Reservation deleted successfully']);
+            Session::flash('success', 'Reservation deleted successfully');
         } else {
-
-            return response()->json(['error' => 'Reservation not found'], 404);
+            Session::flash('error', 'Reservation not found');
         }
+        return redirect()->back();
     }
 
     private function validateReservation(?Reservation $reservation = null): array

@@ -15,6 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory()->create([
+            'name' => 'Omar Djecevic',
+            'email' => 'djecevic.omar@gmail.com',
+
+        ]);
+
         User::factory(45)->create(); //number of customers
         User::factory(5)       // number of workers
             ->state([
@@ -22,6 +28,6 @@ class DatabaseSeeder extends Seeder
             ])
             ->create();
          Service::factory(3)->create();
-         Reservation::factory(10)->create();
+         Reservation::factory(100)->create();
     }
 }
