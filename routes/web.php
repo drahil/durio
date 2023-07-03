@@ -23,6 +23,12 @@ Route::get('/', fn() => view('welcome'));
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/create', [UserController::class, 'create'])->middleware('can:admin');
 Route::post('/users', [UserController::class, 'store']);
+Route::get('/change-password', [UserController::class, 'changePassword'])
+    ->name('changePassword')
+    ->middleware('auth');
+Route::post('/change-password', [UserController::class, 'changePasswordSave'])
+    ->name('changePasswordSave')
+    ->middleware('auth');
 
 Route::get('/services', [ServiceController::class, 'index']);
 

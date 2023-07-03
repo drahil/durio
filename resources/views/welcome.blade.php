@@ -13,13 +13,12 @@
             @auth
                 <li><a href="/reservations/create">Make a reservation</a></li>
                 <li><a href="/logout">Logout</a></li>
-                <li style="float: right;">{{ auth()->user()->name }}</li>
+                <li>{{ auth()->user()->name }}</li>
 
             @else
                 <li><a href="/login">Login</a></li>
                 <li><a href="/register">Register</a></li>
             @endauth
         </ul>
-
-    </body>
+       </body>
 </html>

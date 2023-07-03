@@ -23,6 +23,6 @@
             >{{ ucwords($worker->name) }}</option>
         @endforeach
     </select>
-    <x-form.error name="user"/>
+    <x-form.error name="reservation"/>
     <x-form.button>Update</x-form.button>
 </form>

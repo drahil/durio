@@ -11,6 +11,7 @@
         <li><a href="/services">Services</a></li>
         <hr>
         <li><a href="/reservations/create">Make a reservation</a></li>
+        <li><a href="/change-password">Change password</a></li>
         <li><a href="/logout">Logout</a></li>
         <li class="float-right">{{ auth()->user()->name }}</li>
         @if(auth()->user()->role === 'worker')
