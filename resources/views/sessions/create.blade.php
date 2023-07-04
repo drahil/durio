@@ -1,4 +1,5 @@
 <x-layout>
+    <x-form.go-home-button/>
     <section class="flex items-center justify-center h-screen">
         <main>
             <div class="max-w-md mx-auto px-6 py-8 bg-white shadow-md rounded-md">

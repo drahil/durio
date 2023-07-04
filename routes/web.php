@@ -50,9 +50,6 @@ Route::delete('/reservations/{reservation}', [ReservationController::class, 'des
 Route::get('/login', [SessionsController::class, 'create']);
 Route::post('/login', [SessionsController::class, 'store']);
 Route::get('/logout', [SessionsController::class, 'destroy']);
-Route::get('/dashboard', [SessionsController::class, 'index'])
-    ->middleware('auth');
-
 
 Route::get('/register', [RegisterController::class, 'create'])
     ->middleware('guest');

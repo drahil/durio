@@ -1,6 +1,6 @@
 @props(['data', 'headers'])
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto mt-8">
     <table class="min-w-full bg-white border border-gray-300">
         <thead>
         <tr>

@@ -10,6 +10,7 @@
                 </li>
                 @auth
                     <li><a href="/reservations/create" class="text-white hover:text-gray-200">Make a reservation</a></li>
+                    <li><a href="/change-password" class="text-white hover:text-gray-200">Change password</a></li>
                     <li><a href="/logout" class="text-white hover:text-gray-200">Logout</a></li>
                     <li class="text-white">{{ auth()->user()->name }}</li>
                 @else
@@ -19,10 +20,34 @@
             </ul>
         </div>
     </nav>
-    <div class="container mx-auto mt-32">
-        <h1 class="text-4xl text-center font-semibold">Durio's Hair Salon</h1>
-        <p class="text-lg text-center text-gray-600 mt-4">Welcome to our salon. We provide top-notch hair services tailored to your needs.</p>
-    </div>
+    <div class="container mx-auto mt-8">
+        @auth
+            @if(auth()->user()->role === 'worker')
+                <div class="container mx-auto mt-8">
+                    @php
+                        $reservations = \App\Models\Reservation::where('worker_id', '=', auth()->id())
+                            ->join('users', 'reservations.user_id', '=', 'users.id')
+                            ->join('services', 'reservations.service_id', '=', 'services.id')
+                            ->select('users.name', 'users.email', 'reservations.date', 'reservations.time', 'services.type')
+                            ->orderBy('reservations.date')
+                            ->get();
+                        foreach ($reservations as $reservation) {
+                            $reservation->date = \Carbon\Carbon::parse($reservation->date)->format('Y-m-d');;
+                        }
+                    @endphp
+                    <x-table>
+                        <x-dynamic-table :data="$reservations" :headers="['Name', 'Email', 'Date', 'Time', 'Service']"/>
+                    </x-table>
+                </div>
+            @else
+                <h1 class="text-4xl text-center font-semibold mt-32">Durio's Hair Salon</h1>
+                <p class="text-lg text-center text-gray-600 mt-4">Welcome to our salon. We provide top-notch hair services tailored to your needs.</p>
+            @endif
+        @else
+            <h1 class="text-4xl text-center font-semibold mt-32">Durio's Hair Salon</h1>
+            <p class="text-lg text-center text-gray-600 mt-4">Welcome to our salon. We provide top-notch hair services tailored to your needs.</p>
+        @endauth
+</div>
     </body>
 </x-layout>
 

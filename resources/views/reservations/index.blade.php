@@ -1,60 +1,64 @@
 <x-layout>
     <body class="bg-white font-sans">
+    <x-form.go-home-button/>
     <div class="container mx-auto px-4 py-8">
-        @if(isset($reservations) && count($reservations) > 0)
+        @if(isset($reservations))
             <table class="min-w-full bg-white border border-gray-300">
                 <thead>
                 <tr>
                     <th class="px-4 py-2 bg-blue-500 text-white border-b border-gray-300">Reservation Date</th>
                     <th class="px-4 py-2 bg-blue-500 text-white border-b border-gray-300">Reservation Time</th>
-                    @admin
-                    <th class="px-4 py-2 bg-blue-500 text-white border-b border-gray-300">Actions</th>
-                    @endadmin
+                    @if(auth()->check())
+                        @admin
+                            <th class="px-4 py-2 bg-blue-500 text-white border-b border-gray-300">Actions</th>
+                        @endadmin
+                    @endif
+
                 </tr>
                 </thead>
                 <tbody>
                 @foreach ($reservations as $reservation)
                     <tr>
-                        <td class="px-4 py-2 border-b border-gray-300">
-                            @if(!auth()->check())
-                                @if($reservation->date >= now())
+                        @if(!auth()->check())
+                            @if($reservation->date >= now())
+                                <td class="px-4 py-2 border-b border-gray-300">
                                     {{ $reservation->date }}
-                                @endif
+                                </td>
+                                <td class="px-4 py-2 border-b border-gray-300">
+                                    {{ $reservation->time }}
+                                </td>
+                            @endif
+                        @else
+                            @admin
+                                <td class="px-4 py-2 border-b border-gray-300">
+                                    {{ $reservation->date }}
+                                </td>
+                                <td class="px-4 py-2 border-b border-gray-300">
+                                    {{ $reservation->time }}
+                                </td>
                             @else
-                                @admin
-                                {{ $reservation->date }}
-                                @else
-                                    @if($reservation->date >= now())
+                                @if($reservation->date >= now())
+                                    <td class="px-4 py-2 border-b border-gray-300">
                                         {{ $reservation->date }}
-                                    @endif
-                                @endadmin
-                            @endif
-                        </td>
-                        <td class="px-4 py-2 border-b border-gray-300">
-                            @if(!auth()->check())
-                                @if($reservation->time >= now())
-                                    {{ $reservation->time }}
-                                @endif
-                            @else
-                                @admin
-                                    {{ $reservation->time }}
-                                @else
-                                    @if($reservation->time >= now())
+                                    </td>
+                                    <td class="px-4 py-2 border-b border-gray-300">
                                         {{ $reservation->time }}
-                                    @endif
-                                @endadmin
-                            @endif
-                        </td>
-                        @admin
-                        <td class="px-4 py-2 border-b border-gray-300">
-                            <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" class="inline-block">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
-                            </form>
-                            <a href="{{ route('reservations.edit', $reservation) }}" class="ml-2 text-blue-500 hover:text-blue-700">Edit</a>
-                        </td>
-                        @endadmin
+                                    </td>
+                                @endif
+                            @endadmin
+                        @endif
+                        @if(auth()->check())
+                            @admin
+                                <td class="px-4 py-2 border-b border-gray-300">
+                                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+                                    </form>
+                                    <a href="{{ route('reservations.edit', $reservation) }}" class="ml-2 text-blue-500 hover:text-blue-700">Edit</a>
+                                </td>
+                            @endadmin
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>
@@ -71,5 +75,4 @@
     </div>
     </body>
 </x-layout>
-
 
