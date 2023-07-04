@@ -21,7 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn() => view('welcome'));
 
 Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/create', [UserController::class, 'create'])->middleware('can:admin');
+Route::get('/users/create', [UserController::class, 'create'])
+    ->name('createUser')
+    ->middleware('can:admin');
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/change-password', [UserController::class, 'changePassword'])
     ->name('changePassword')

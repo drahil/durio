@@ -1,38 +1,25 @@
-<!DOCTYPE html>
-<html>
+<x-layout>
+    <section class="flex items-center justify-center h-screen">
+        <main>
+            <div class="max-w-md mx-auto px-6 py-8 bg-white shadow-md rounded-md">
+                <h1 class="text-2xl font-bold mb-6">Log in!</h1>
 
-<head>
-    <title>Change Password</title>
-</head>
+                <form method="POST" action="{{ route('changePasswordSave') }}">
+                    @csrf
 
-<body>
-    <div>
-        <h3 >Change Password</h3>
+                    <x-form.input name="current_password" type="current_password" class="mb-4" />
+                    <x-form.input name="new_password" type="new_password" class="mb-4" />
+                    <x-form.input name="new_password_confirmation" type="new_password_confirmation" class="mb-4" />
 
-        <form  action="{{ route('changePasswordSave') }}" method="POST">
-            @csrf
-            @method('POST')
-            <div >
-                <label for="current_password" >Current Password</label>
-                <input type="password"  id="current_password" name="current_password">
+                    <x-form.button class="w-full">Submit</x-form.button>
+                </form>
             </div>
-            <div >
-                <label for="new_password" >New Password</label>
-                <input type="password"  id="new_password" name="new_password">
-            </div>
-            <div >
-                <label for="new_password_confirmation" >Confirm New Password</label>
-                <input type="password"  id="new_password_confirmation" name="new_password_confirmation">
-            </div>
-            <button type="submit" >Submit</button>
-        </form>
-    </div>
 
-    @if(Session::has('success'))
-        <div class="alert alert-success">
-            {{ Session::get('success') }}
-        </div>
-    @endif
-</body>
-
-</html>
+            @if(Session::has('success'))
+                <div class="text-blue-500">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+        </main>
+    </section>
+</x-layout>

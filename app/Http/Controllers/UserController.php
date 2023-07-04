@@ -47,7 +47,9 @@ class UserController extends Controller
         User::create(array_merge($this->validateUser(), [
             'role' => 'worker',
         ]));
-        return redirect('/');
+        Session::flash('success', 'New worker added!');
+
+        return redirect()->route('createUser');
     }
 
     /**
@@ -97,7 +99,7 @@ class UserController extends Controller
         }
     }
 
-    private function validateUser(? User $user = null) :array
+    private function validateUser(?User $user = null): array
     {
         $user ??= new User();
 
@@ -124,27 +126,24 @@ class UserController extends Controller
 
         $auth = Auth::user();
 
-        if (! Hash::check($request->current_password, $auth->password))
-        {
+        if ( ! Hash::check($request->current_password, $auth->password)) {
             Session::flash('success', 'Current Password is Invalid');
             return redirect()->route('changePasswordSave');
         }
 
-        if (strcmp($request->current_password, $request->new_password) == 0)
-        {
+        if (strcmp($request->current_password, $request->new_password) == 0) {
             Session::flash('success', 'New password cannot be same as your current password.');
             return redirect()->route('changePasswordSave');
         }
 
-        if (strcmp($request->new_password_confirmation, $request->new_password) != 0)
-        {
+        if (strcmp($request->new_password_confirmation, $request->new_password) != 0) {
             Session::flash('success', 'Passwords do not match.');
             return redirect()->route('changePasswordSave');
         }
 
-        $user =  User::find($auth->id);
+        $user = User::find($auth->id);
 
-        $user->password =  $request->new_password;
+        $user->password = $request->new_password;
         $user->save();
         Session::flash('success', 'Password changed successfully');
         return back();

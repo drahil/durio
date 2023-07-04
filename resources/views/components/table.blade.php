@@ -1,3 +1,3 @@
-<div class="grid grid-cols-5 gap-6">
+<div class="grid grid-cols-1 gap-6">
     {{ $slot }}
 </div>
