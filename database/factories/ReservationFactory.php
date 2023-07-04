@@ -21,7 +21,8 @@ class ReservationFactory extends Factory
     {
         return [
             'user_id' => User::all()->random()->id,
-            'date' => $this->faker->unique()->dateTimeInInterval('-365 days', '+730 days'),
+            'date' => $this->faker->dateTimeBetween('-365 days', '+730 days')->format('Y-m-d'),
+            'time' => $this->faker->time('H:i'),
             'worker_id' => User::where('role', '=', 'worker')->get()->random()->id,
             'service_id' => Service::all()->random()->id,
         ];

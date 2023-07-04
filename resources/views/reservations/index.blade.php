@@ -6,6 +6,7 @@
                 <thead>
                 <tr>
                     <th class="px-4 py-2 bg-blue-500 text-white border-b border-gray-300">Reservation Date</th>
+                    <th class="px-4 py-2 bg-blue-500 text-white border-b border-gray-300">Reservation Time</th>
                     @admin
                     <th class="px-4 py-2 bg-blue-500 text-white border-b border-gray-300">Actions</th>
                     @endadmin
@@ -26,8 +27,23 @@
                                     @if($reservation->date >= now())
                                         {{ $reservation->date }}
                                     @endif
-                                    @endadmin
+                                @endadmin
+                            @endif
+                        </td>
+                        <td class="px-4 py-2 border-b border-gray-300">
+                            @if(!auth()->check())
+                                @if($reservation->time >= now())
+                                    {{ $reservation->time }}
                                 @endif
+                            @else
+                                @admin
+                                    {{ $reservation->time }}
+                                @else
+                                    @if($reservation->time >= now())
+                                        {{ $reservation->time }}
+                                    @endif
+                                @endadmin
+                            @endif
                         </td>
                         @admin
                         <td class="px-4 py-2 border-b border-gray-300">

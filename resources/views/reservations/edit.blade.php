@@ -9,6 +9,8 @@
                     @method('PATCH')
                     <x-form.input name="date" type="date" class="mb-4"/>
 
+                    <x-form.input name="time" type="time" class="mb-4"/>
+
                     <x-form.label name="Service" type="service" class="mb-4"/>
                     <select name="service_id" id="service_id">
                         @foreach (\App\Models\Service::all() as $service)

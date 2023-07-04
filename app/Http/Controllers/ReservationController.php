@@ -6,6 +6,7 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -45,11 +46,16 @@ class ReservationController extends Controller
     public function show(Reservation $reservation, User $user)
     {
         $reservations = Reservation::where('worker_id', '=', $user->id)
-            ->select('date', 'id')
+            ->select('date', 'time', 'id')
             ->get()
             ->sortBy('date');
+        foreach ($reservations as $reservation) {
+            $reservation->date = Carbon::parse($reservation->date)->format('Y-m-d');;
+        }
 
-        return view('reservations.index', compact('reservations'));
+        return view('reservations.index', [
+            'reservations' => $reservations
+        ]);
     }
 
     /**
@@ -96,7 +102,8 @@ class ReservationController extends Controller
         }
 
         return request()->validate([
-            'date' => ['required', Rule::unique('reservations', 'date')->ignore($reservation)],
+            'date' => ['required'],
+            'time' => ['required'],
             'service_id' => ['required', Rule::exists('services', 'id')],
             'worker_id' => ['required', Rule::exists('users', 'id')],
         ]);

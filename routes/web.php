@@ -34,13 +34,15 @@ Route::post('/change-password', [UserController::class, 'changePasswordSave'])
 
 Route::get('/services', [ServiceController::class, 'index']);
 
-Route::get('/users/{user}/reservations', [ReservationController::class, 'show'])->name('users.reservations');
+Route::get('/users/{user}/reservations', [ReservationController::class, 'show'])
+    ->name('users.reservations');
 Route::get('/reservations/create', [ReservationController::class, 'create']);
 Route::post('/reservations', [ReservationController::class, 'store']);
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit'])
     ->name('reservations.edit')
     ->middleware('can:admin');;
-Route::patch('/reservations/{reservation}', [ReservationController::class, 'update'])->middleware('can:admin');;
+Route::patch('/reservations/{reservation}', [ReservationController::class, 'update'])
+    ->middleware('can:admin');;
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])
     ->name('reservations.destroy')
     ->middleware('can:admin');
@@ -48,8 +50,11 @@ Route::delete('/reservations/{reservation}', [ReservationController::class, 'des
 Route::get('/login', [SessionsController::class, 'create']);
 Route::post('/login', [SessionsController::class, 'store']);
 Route::get('/logout', [SessionsController::class, 'destroy']);
-Route::get('/dashboard', [SessionsController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', [SessionsController::class, 'index'])
+    ->middleware('auth');
 
 
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+Route::get('/register', [RegisterController::class, 'create'])
+    ->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store'])
+    ->middleware('guest');

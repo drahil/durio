@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->dateTime('date');
+            $table->time('time');
             $table->integer('worker_id');
             $table->foreignId('service_id');
             $table->timestamps();
+            $table->unique(['date', 'time']);
         });
     }
 
