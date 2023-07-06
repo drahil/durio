@@ -34,7 +34,7 @@ Route::post('/change-password', [UserController::class, 'changePasswordSave'])
 
 Route::get('/services', [ServiceController::class, 'index']);
 
-Route::get('/users/{user}/reservations', [ReservationController::class, 'show'])
+Route::get('/users/{user}/reservations', [ReservationController::class, 'index'])
     ->name('users.reservations');
 Route::get('/reservations/create', [ReservationController::class, 'create']);
 Route::post('/reservations', [ReservationController::class, 'store']);
@@ -46,6 +46,9 @@ Route::patch('/reservations/{reservation}', [ReservationController::class, 'upda
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])
     ->name('reservations.destroy')
     ->middleware('can:admin');
+Route::get('/reservations/my-reservations', [ReservationController::class, 'myReservations'])
+    ->name('reservations.myReservations')
+    ->middleware('auth');
 
 Route::get('/login', [SessionsController::class, 'create']);
 Route::post('/login', [SessionsController::class, 'store']);

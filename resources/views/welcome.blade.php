@@ -10,6 +10,7 @@
                 </li>
                 @auth
                     <li><a href="/reservations/create" class="text-white hover:text-gray-200">Make a reservation</a></li>
+                    <li><a href="/reservations/my-reservations" class="text-white hover:text-gray-200">My reservations</a></li>
                     <li><a href="/change-password" class="text-white hover:text-gray-200">Change password</a></li>
                     <li><a href="/logout" class="text-white hover:text-gray-200">Logout</a></li>
                     <li class="text-white">{{ auth()->user()->name }}</li>

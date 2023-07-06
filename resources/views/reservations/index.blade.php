@@ -2,7 +2,8 @@
     <body class="bg-white font-sans">
     <x-form.go-home-button/>
     <div class="container mx-auto px-4 py-8">
-        @if(isset($reservations))
+
+        @if(count($reservationsForWorker) > 0)
             <table class="min-w-full bg-white border border-gray-300">
                 <thead>
                 <tr>
@@ -17,32 +18,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($reservations as $reservation)
+                @foreach ($reservationsForWorker as $reservationForWorker)
                     <tr>
                         @if(!auth()->check())
-                            @if($reservation->date >= now())
+                            @if($reservationForWorker->date >= now())
                                 <td class="px-4 py-2 border-b border-gray-300">
-                                    {{ $reservation->date }}
+                                    {{ $reservationForWorker->date }}
                                 </td>
                                 <td class="px-4 py-2 border-b border-gray-300">
-                                    {{ $reservation->time }}
+                                    {{ $reservationForWorker->time }}
                                 </td>
                             @endif
                         @else
                             @admin
                                 <td class="px-4 py-2 border-b border-gray-300">
-                                    {{ $reservation->date }}
+                                    {{ $reservationForWorker->date }}
                                 </td>
                                 <td class="px-4 py-2 border-b border-gray-300">
-                                    {{ $reservation->time }}
+                                    {{ $reservationForWorker->time }}
                                 </td>
                             @else
-                                @if($reservation->date >= now())
+                                @if($reservationForWorker->date >= now())
                                     <td class="px-4 py-2 border-b border-gray-300">
-                                        {{ $reservation->date }}
+                                        {{ $reservationForWorker->date }}
                                     </td>
                                     <td class="px-4 py-2 border-b border-gray-300">
-                                        {{ $reservation->time }}
+                                        {{ $reservationForWorker->time }}
                                     </td>
                                 @endif
                             @endadmin
@@ -50,12 +51,12 @@
                         @if(auth()->check())
                             @admin
                                 <td class="px-4 py-2 border-b border-gray-300">
-                                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" class="inline-block">
+                                    <form action="{{ route('reservations.destroy', $reservationForWorker->id) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
                                     </form>
-                                    <a href="{{ route('reservations.edit', $reservation) }}" class="ml-2 text-blue-500 hover:text-blue-700">Edit</a>
+                                    <a href="{{ route('reservations.edit', $reservationForWorker) }}" class="ml-2 text-blue-500 hover:text-blue-700">Edit</a>
                                 </td>
                             @endadmin
                         @endif

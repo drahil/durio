@@ -16,9 +16,21 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user)
     {
+        $reservationsForWorker = Reservation::where('worker_id', '=', $user->id)
+            ->select('date', 'time', 'id')
+            ->get()
+            ->sortBy('date');
 
+
+        foreach ($reservationsForWorker as $reservationForWorker) {
+            $reservationForWorker->date = Carbon::parse($reservationForWorker->date)->format('Y-m-d');
+        }
+
+        return view('reservations.index', [
+            'reservationsForWorker' => $reservationsForWorker,
+        ]);
     }
 
     /**
@@ -37,7 +49,7 @@ class ReservationController extends Controller
         Reservation::create(array_merge($this->validateReservation(), [
             'user_id' => request()->user()->id,
         ]));
-        return redirect('/dashboard');
+        return redirect('/');
     }
 
     /**
@@ -45,17 +57,7 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation, User $user)
     {
-        $reservations = Reservation::where('worker_id', '=', $user->id)
-            ->select('date', 'time', 'id')
-            ->get()
-            ->sortBy('date');
-        foreach ($reservations as $reservation) {
-            $reservation->date = Carbon::parse($reservation->date)->format('Y-m-d');;
-        }
 
-        return view('reservations.index', [
-            'reservations' => $reservations
-        ]);
     }
 
     /**
@@ -91,6 +93,23 @@ class ReservationController extends Controller
         Session::flash('success', 'Reservation deleted successfully');
 
         return redirect()->back();
+    }
+
+    public function myReservations()
+    {
+        $user = \auth()->user();
+        $reservationsForGuest = Reservation::where('user_id', '=', $user->id)
+            ->select('date', 'time', 'id', 'worker_id')
+            ->get()
+            ->sortBy('date');
+
+        foreach ($reservationsForGuest as $reservationForGuest) {
+            $reservationForGuest->date = Carbon::parse($reservationForGuest->date)->format('Y-m-d');;
+        }
+
+        return view('reservations.my-reservations', [
+            'reservationsForGuest' => $reservationsForGuest,
+        ]);
     }
 
     private function validateReservation(?Reservation $reservation = null): array
