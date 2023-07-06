@@ -10,6 +10,7 @@
 
                     <x-form.input name="name" type="name" class="mb-4" />
                     <x-form.input name="email" type="email" class="mb-4" />
+                    <x-form.textarea name="description" class="mb-4"/>
                     <x-form.input name="password" type="password" autocomplete="new-password" class="mb-4" />
                     <x-form.button class="w-full">Create</x-form.button>
                     <x-form.error name="user"/>

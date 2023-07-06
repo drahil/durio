@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('password');
+            $table->text('description')->nullable();
+            $table->integer('rating')->default('0');
             $table->float('profit')->default('0');
             $table->string('role')->default('customer');
             $table->timestamps();

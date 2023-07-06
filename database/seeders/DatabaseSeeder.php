@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Feedback;
 use App\Models\Reservation;
 use App\Models\Service;
 use App\Models\User;
@@ -29,5 +30,8 @@ class DatabaseSeeder extends Seeder
             ->create();
          Service::factory(3)->create();
          Reservation::factory(100)->create();
+
+
+         Feedback::factory(30)->create();
     }
 }

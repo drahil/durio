@@ -4,7 +4,7 @@
     <x-table>
         @php
             foreach ($users as $user){
-               $user['reservations'] = '<a href="/users/' . $user->id . '/reservations">' . 'See reservations' . '</a>';
+               $user['profile'] = '<a href="/users/' . $user->id . '">' . 'See profile' . '</a>';
            }
         @endphp
         @if(\Illuminate\Support\Facades\Auth::guest())
@@ -14,14 +14,15 @@
                          'id' => $user->id,
                          'name' => $user->name,
                          'email' => $user->email,
-                         'reservations' => $user->reservations,
+                         'rating' => $user->rating,
+                         'profile' => $user->profile,
                      ]);
                  });
             @endphp
-            <x-dynamic-table :data="$users" :headers="['ID', 'Name', 'Email', 'Reservations']"/>
+            <x-dynamic-table :data="$users" :headers="['ID', 'Name', 'Email', 'Rating', 'Profile']"/>
         @else
             @admin
-                <x-dynamic-table :data="$users" :headers="['ID', 'Name', 'Profit', 'Email', 'Reservations']"/>
+                <x-dynamic-table :data="$users" :headers="['ID', 'Name', 'Profit', 'Email', 'Rating', 'Profile']"/>
                 <a href="{{route('createUser')}}" class="mt-6 bg-blue-500 text-white text-center uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-blue-600 w-64">
                     Add a worker
                 </a>
@@ -32,11 +33,12 @@
                              'id' => $user->id,
                              'name' => $user->name,
                              'email' => $user->email,
-                             'reservations' => $user->reservations,
+                             'rating' => $user->rating,
+                             'profile' => $user->profile,
                          ]);
                      });
                 @endphp
-                <x-dynamic-table :data="$users" :headers="['ID', 'Name', 'Email', 'Reservations']"/>
+                <x-dynamic-table :data="$users" :headers="['ID', 'Name', 'Email', 'Rating', 'Profile']"/>
             @endadmin
         @endif
 

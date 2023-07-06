@@ -27,6 +27,11 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class);
     }
 
+    public function feedback()
+    {
+        return $this->hasManyThrough(Feedback::class, Reservation::class);
+    }
+
 
     /**
      * The attributes that are mass assignable.

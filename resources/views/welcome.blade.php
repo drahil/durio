@@ -22,6 +22,7 @@
         </div>
     </nav>
     <div class="container mx-auto mt-8">
+        <h1 class="text-2xl font-bold mb-4">My Reservations</h1>
         @auth
             @if(auth()->user()->role === 'worker')
                 <div class="container mx-auto mt-8">
@@ -33,7 +34,7 @@
                             ->orderBy('reservations.date')
                             ->get();
                         foreach ($reservations as $reservation) {
-                            $reservation->date = \Carbon\Carbon::parse($reservation->date)->format('Y-m-d');;
+                            $reservation->date = \Carbon\Carbon::parse($reservation->date)->format('Y-m-d');
                         }
                     @endphp
                     <x-table>
@@ -48,7 +49,7 @@
             <h1 class="text-4xl text-center font-semibold mt-32">Durio's Hair Salon</h1>
             <p class="text-lg text-center text-gray-600 mt-4">Welcome to our salon. We provide top-notch hair services tailored to your needs.</p>
         @endauth
-</div>
+    </div>
     </body>
 </x-layout>
 

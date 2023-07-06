@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
@@ -31,6 +32,7 @@ Route::get('/change-password', [UserController::class, 'changePassword'])
 Route::post('/change-password', [UserController::class, 'changePasswordSave'])
     ->name('changePasswordSave')
     ->middleware('auth');
+Route::get('/users/{user}', [UserController::class, 'show']);
 
 Route::get('/services', [ServiceController::class, 'index']);
 
@@ -40,12 +42,12 @@ Route::get('/reservations/create', [ReservationController::class, 'create']);
 Route::post('/reservations', [ReservationController::class, 'store']);
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit'])
     ->name('reservations.edit')
-    ->middleware('can:admin');;
+    ->middleware('auth');
 Route::patch('/reservations/{reservation}', [ReservationController::class, 'update'])
-    ->middleware('can:admin');;
+    ->middleware('auth');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])
     ->name('reservations.destroy')
-    ->middleware('can:admin');
+    ->middleware('auth');
 Route::get('/reservations/my-reservations', [ReservationController::class, 'myReservations'])
     ->name('reservations.myReservations')
     ->middleware('auth');
@@ -58,3 +60,8 @@ Route::get('/register', [RegisterController::class, 'create'])
     ->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store'])
     ->middleware('guest');
+//da se promijeni dodoa jreservaiton_id po defaultu
+Route::get('/reservations/feedback/{reservation}/create', [FeedbackController::class, 'create'])
+    ->name('reservations.feedback');
+Route::post('/reservations/feedback', [FeedbackController::class, 'store']);
+

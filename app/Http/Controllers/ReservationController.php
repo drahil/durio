@@ -76,6 +76,8 @@ class ReservationController extends Controller
     public function update(Reservation $reservation)
     {
         $attributes = $this->validateReservation($reservation);
+
+
         $reservation->update($attributes);
 
         Session::flash('success', 'Reservation edited successfully');

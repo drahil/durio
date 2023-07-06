@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWorkerRequest;
 use App\Http\Requests\UpdateWorkerRequest;
+use App\Models\Feedback;
 use App\Models\Reservation;
 use App\Models\Service;
 use App\Models\User;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use function PHPUnit\Framework\isEmpty;
 
 class UserController extends Controller
 {
@@ -23,9 +25,10 @@ class UserController extends Controller
     public function index()
     {
         $this->calculateProfit();
+        $this->calculateRating();
 
         return view('users.index', [
-            'users' => User::select('id', 'name', 'profit', 'email')
+            'users' => User::select('id', 'name', 'profit', 'rating', 'email')
                 ->where('role', '=', 'worker')
                 ->get(),
         ]);
@@ -57,7 +60,14 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $reservations = Reservation::where('worker_id', '=', $user->id)->get();
+
+        $this->calculateRating();
+
+        return view('users.show', [
+            'user' => $user,
+            'reservations' => $reservations,
+        ]);
     }
 
     /**
@@ -94,9 +104,25 @@ class UserController extends Controller
                 ->where('reservations.date', '<', Carbon::today())
                 ->sum(DB::raw('services.price'));
 
-            $user->profit = $totalProfit;
+        }
+    }
+
+    public function calculateRating()
+    {
+        $users = User::where('role', '=', 'worker')->get();
+        foreach ($users as $user) {
+            $allFeedback = $user->feedback;
+            $totalPoints = $allFeedback->sum('rating');
+            $totalVotes = $allFeedback->count();
+            if ($totalVotes == 0) {
+                $rating = 5;
+            } else {
+                $rating = $totalPoints / $totalVotes;
+            }
+            $user->rating = $rating;
             $user->save();
         }
+
     }
 
     private function validateUser(?User $user = null): array
@@ -108,6 +134,7 @@ class UserController extends Controller
         return request()->validate([
             'name' => ['required'],
             'email' => ['required', Rule::unique('users', 'email')],
+            'description' => ['required'],
             'password' => ['required'],
         ]);
     }
@@ -148,5 +175,6 @@ class UserController extends Controller
         Session::flash('success', 'Password changed successfully');
         return back();
     }
+
 
 }

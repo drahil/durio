@@ -25,7 +25,7 @@
 
                         <td class="px-4 py-2 border-b border-gray-300">
                             @if($reservationForGuest->date < now())
-                                <a href="#" class="ml-2 text-blue-500 hover:text-blue-700">Give a feedback</a>
+                                <a href="{{ route('reservations.feedback', ['reservation' => $reservationForGuest]) }}" class="ml-2 text-blue-500 hover:text-blue-700">Give a feedback</a>
                             @else
                                 <a href="{{ route('reservations.edit', $reservationForGuest) }}" class="ml-2 text-blue-500 hover:text-blue-700">Edit</a>
                             @endif

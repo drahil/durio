@@ -19,5 +19,9 @@ class Reservation extends Model
     {
         return $this->hasOne(Service::class);
     }
+    public function feedback()
+    {
+        return $this->hasOne(Feedback::class);
+    }
 
 }
