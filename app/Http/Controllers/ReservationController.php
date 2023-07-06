@@ -8,8 +8,10 @@ use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+
 
 class ReservationController extends Controller
 {
@@ -46,9 +48,19 @@ class ReservationController extends Controller
      */
     public function store()
     {
-        Reservation::create(array_merge($this->validateReservation(), [
-            'user_id' => request()->user()->id,
-        ]));
+        try {
+            Reservation::create(array_merge($this->validateReservation(), [
+                'user_id' => request()->user()->id,
+            ]));
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->errorInfo[1] === 1062) {
+                // Integrity constraint violation error occurred
+                // Flash an error message
+                Session::flash('success', 'Date and time already taken.');
+                return redirect()->route('reservation.create');
+            }
+        }
+
         return redirect('/');
     }
 
@@ -76,9 +88,16 @@ class ReservationController extends Controller
     public function update(Reservation $reservation)
     {
         $attributes = $this->validateReservation($reservation);
-
-
-        $reservation->update($attributes);
+        try {
+            $reservation->update($attributes);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->errorInfo[1] === 1062) {
+                // Integrity constraint violation error occurred
+                // Flash an error message
+                Session::flash('success', 'Date and time already taken.');
+                return redirect()->route('reservation.edit');
+            }
+        }
 
         Session::flash('success', 'Reservation edited successfully');
 

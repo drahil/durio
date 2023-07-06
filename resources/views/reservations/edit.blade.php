@@ -36,6 +36,11 @@
                     <x-form.button class="w-full">Edit</x-form.button>
                 </form>
             </div>
+            @if(Session::has('success'))
+                <div class="mt-4 bg-green-200 text-green-800 px-4 py-2 rounded">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
         </main>
     </section>
 </x-layout>

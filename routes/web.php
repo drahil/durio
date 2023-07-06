@@ -38,7 +38,8 @@ Route::get('/services', [ServiceController::class, 'index']);
 
 Route::get('/users/{user}/reservations', [ReservationController::class, 'index'])
     ->name('users.reservations');
-Route::get('/reservations/create', [ReservationController::class, 'create']);
+Route::get('/reservations/create', [ReservationController::class, 'create'])
+    ->name('reservation.create');
 Route::post('/reservations', [ReservationController::class, 'store']);
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit'])
     ->name('reservations.edit')
@@ -60,7 +61,7 @@ Route::get('/register', [RegisterController::class, 'create'])
     ->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store'])
     ->middleware('guest');
-//da se promijeni dodoa jreservaiton_id po defaultu
+
 Route::get('/reservations/feedback/{reservation}/create', [FeedbackController::class, 'create'])
     ->name('reservations.feedback');
 Route::post('/reservations/feedback', [FeedbackController::class, 'store']);
