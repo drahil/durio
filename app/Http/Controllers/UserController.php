@@ -96,14 +96,15 @@ class UserController extends Controller
 
     public function calculateProfit()
     {
-        $users = User::where('role', '=', 'worker')->get();
-
+        $users = User::where('role', '=', 'worker')
+            ->get();
         foreach ($users as $user) {
             $totalProfit = Service::join('reservations', 'services.id', '=', 'reservations.service_id')
                 ->where('reservations.worker_id', $user->id)
                 ->where('reservations.date', '<', Carbon::today())
                 ->sum(DB::raw('services.price'));
-
+            $user->profit = $totalProfit;
+            $user->save();
         }
     }
 
